@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity, Text, StatusBar, KeyboardAvoidingView  } from 'react-native';
 import ErrorWindow from './ErrorWindow';
+import buttonStyles from '../utils/styles';
 
 class LoginForm extends React.Component {
 
@@ -24,34 +25,38 @@ class LoginForm extends React.Component {
     render(){
         const { inputStyle } = styles;
         return (
+          <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <View style={styles.backgroundStyle}>
-                <Text style={{fontSize: 25, paddingVertical: 15}}>Login</Text>
-                <TextInput 
+                <Text style={{fontSize: 25, paddingVertical: 15}}>Welcome</Text>
+                <StatusBar barStyle="light-content"/>
+                <TextInput
                     style={inputStyle}
                     onChangeText={(email) => this.setState({email: email})}
-                    placeholder={'e-mail'}/>
-                <TextInput 
-                    style={inputStyle} 
+                    placeholder={'E-mail'}/>
+                <TextInput
+                    style={inputStyle}
                     onChangeText={(password) => this.setState({password: password})}
-                    placeholder={'password'}/>
+                    secureTextEntry
+                    placeholder={'Password'}/>
                 <View style={styles.controlPanel}>
                     <View style={styles.buttonsLayout}>
-                        <TouchableOpacity 
-                            style={styles.buttonStyle}
-                            onPress={() => 
+                        <TouchableOpacity
+                            style={buttonStyles.buttonStyle}
+                            onPress={() =>
                                     this.state.onLogin(this.state.email, this.state.password)}>
-                            <Text>Login</Text>
+                            <Text style={buttonStyles.buttonText}>Login</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity 
-                            style={styles.buttonStyle}
-                            onPress={() => 
+                        <TouchableOpacity
+                            style={buttonStyles.buttonStyle}
+                            onPress={() =>
                                     this.state.onRegister(this.state.email, this.state.password)}>
-                            <Text>Register</Text>
+                            <Text style={buttonStyles.buttonText}>Register</Text>
                         </TouchableOpacity>
                     </View>
                     {this.shouldPrint(this.state.error) && this.renderError(this.state.error)}
                 </View>
             </View>
+             </KeyboardAvoidingView>
         );
     }
 
@@ -69,11 +74,6 @@ class LoginForm extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    buttonStyle: {
-        backgroundColor: '#95a5a6',
-        margin: 25,
-        padding: 10
-    },
     controlPanel: {
         flexDirection: 'column'
     },
@@ -88,10 +88,11 @@ const styles = StyleSheet.create({
         margin: 15
     },
     backgroundStyle: {
+        //flex: 1,
         backgroundColor: '#ecf0f1',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '70%'
+        height: '100%'
     }
 });
 
