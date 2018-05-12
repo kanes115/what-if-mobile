@@ -16,7 +16,7 @@ class ErrorWindow extends React.Component {
         console.log("error code: " + this.state.error.code);
         return (
             <View style={styles.viewStyle}>
-                <Text style={{fontSize: 20}}>
+                <Text style={{fontSize: 11}}>
                     {this.transformMessage(this.state.error)}
                 </Text>
             </View>
