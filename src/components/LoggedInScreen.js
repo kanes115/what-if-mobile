@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
 import * as firebase from 'firebase';
+import { get } from '../utils/HttpRequestHelper';
 
 class LoggedInScreen extends React.Component {
 
@@ -14,6 +15,13 @@ class LoggedInScreen extends React.Component {
         this.state.onLogout();
     }
 
+    onTest = async () => {
+        const res = await get('/test');
+        console.log("status: " + res.status);
+        if(res.status === 200)
+            console.log(await res.json());
+    }
+
     render(){
         return (
             <View>
@@ -23,6 +31,11 @@ class LoggedInScreen extends React.Component {
                 <TouchableOpacity onPress={this.onLogout}>
                     <Text>
                         Logout
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.onTest}>
+                    <Text>
+                        Test
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -4,14 +4,15 @@ import Header from './src/components/header';
 import MainScreen from './src/components/MainScreen';
 
 export default class App extends React.Component {
-  render() {
-    return (
-        <View>
-            <Header headerText={'What If'}/>
-            <MainScreen error={null}/>
-        </View>
-    );
-  }
+
+    render() {
+      return (
+          <View>
+              <Header headerText={'What If'}/>
+              <MainScreen error={null}/>
+          </View>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
