@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity, Text, StatusBar, KeyboardAvoidingView  } from 'react-native';
 import ErrorWindow from './ErrorWindow';
+import buttonStyles from '../utils/styles';
 
 class LoginForm extends React.Component {
 
@@ -40,16 +41,16 @@ class LoginForm extends React.Component {
                 <View style={styles.controlPanel}>
                     <View style={styles.buttonsLayout}>
                         <TouchableOpacity
-                            style={styles.buttonStyle}
+                            style={buttonStyles.buttonStyle}
                             onPress={() =>
                                     this.state.onLogin(this.state.email, this.state.password)}>
-                            <Text style={styles.buttonText}>Login</Text>
+                            <Text style={buttonStyles.buttonText}>Login</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={styles.buttonStyle}
+                            style={buttonStyles.buttonStyle}
                             onPress={() =>
                                     this.state.onRegister(this.state.email, this.state.password)}>
-                            <Text style={styles.buttonText}>Register</Text>
+                            <Text style={buttonStyles.buttonText}>Register</Text>
                         </TouchableOpacity>
                     </View>
                     {this.shouldPrint(this.state.error) && this.renderError(this.state.error)}
@@ -73,20 +74,6 @@ class LoginForm extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
-    buttonStyle: {
-      backgroundColor: '#2980b6',
-      margin: 15,
-      padding: 20,
-      height: 10,
-      marginTop: 10,
-      justifyContent: 'center'
-    },
-    buttonText:{
-        color: '#fff',
-        textAlign: 'center',
-        fontWeight: '700'
-    },
     controlPanel: {
         flexDirection: 'column'
     },
