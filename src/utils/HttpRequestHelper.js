@@ -5,6 +5,7 @@ function get(path){
     const endpoint = buildEndpoint(address, path);
     return firebase.auth().currentUser.getIdToken(true)
             .then(async idToken => {
+                console.log("Token: " + idToken);
                 var res = await fetch(endpoint, {
                     method: 'GET',
                     headers: {
@@ -23,8 +24,22 @@ function get(path){
             });
 }
 
+async function post(path, payload){
+    const endpoint = buildEndpoint(address, path);
+    var res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'html',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                console.log("Result: " + res.status);
+                return res;
+}
+
+
 function buildEndpoint(address, path){ 
     return  address + path;
 }
 
-export { get };
+export { get, post };

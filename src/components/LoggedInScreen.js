@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
+import { Text, View, TouchableOpacity, AsyncStorage, StyleSheet } from 'react-native';
 import * as firebase from 'firebase';
 import { get } from '../utils/HttpRequestHelper';
+import { buttonStyles } from '../utils/Styles';
 
 class LoggedInScreen extends React.Component {
 
@@ -22,26 +23,42 @@ class LoggedInScreen extends React.Component {
             console.log(await res.json());
     }
 
+
     render(){
         return (
             <View>
                 <Text style={{fontSize: 30}}>
-                    Logged in!
+                    Hello { this.state.user.email }!
                 </Text>
-                <TouchableOpacity onPress={this.onLogout}>
-                    <Text>
-                        Logout
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.onTest}>
-                    <Text>
-                        Test
-                    </Text>
-                </TouchableOpacity>
+                <View style={styles.navbar}>
+                    <TouchableOpacity 
+                        onPress={this.onLogout}
+                        style={buttonStyles.buttonStyle}>
+                        <Text>
+                            Logout
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        onPress={this.onTest}
+                        style={buttonStyles.buttonStyle}>
+                        <Text>
+                            Test
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
 
 }
+
+const styles = StyleSheet.create({
+    navbar: {
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    }
+});
 
 export default LoggedInScreen;
