@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity, Text, StatusBar, KeyboardAvoidingView  } from 'react-native';
 import ErrorWindow from './ErrorWindow';
-import buttonStyles from '../utils/styles';
+import buttonStyles from '../utils/Styles';
 
 class LoginForm extends React.Component {
 

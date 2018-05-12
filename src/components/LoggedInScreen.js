@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity, AsyncStorage, StyleSheet } from 'react-native';
 import * as firebase from 'firebase';
 import { get } from '../utils/HttpRequestHelper';
-import { buttonStyles } from '../utils/Styles';
+import buttonStyles from '../utils/Styles';
 
 class LoggedInScreen extends React.Component {
 
@@ -34,14 +34,14 @@ class LoggedInScreen extends React.Component {
                     <TouchableOpacity 
                         onPress={this.onLogout}
                         style={buttonStyles.buttonStyle}>
-                        <Text>
+                        <Text style={buttonStyles.buttonText}>
                             Logout
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                         onPress={this.onTest}
                         style={buttonStyles.buttonStyle}>
-                        <Text>
+                        <Text style={buttonStyles.buttonText}>
                             Test
                         </Text>
                     </TouchableOpacity>

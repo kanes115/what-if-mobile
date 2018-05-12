@@ -6,7 +6,7 @@ import * as firebase from 'firebase';
 
 
 class MainScreen extends React.Component {
-
+    
     constructor() {
         super();
         const firebaseConfig = {
@@ -48,6 +48,7 @@ class MainScreen extends React.Component {
     onRegister = (email, password) => {
   	firebase.auth().createUserWithEmailAndPassword(email, password)
     			.then((user) => {
+
                             console.log("logged in");
     			})
     			.catch((error) => {
@@ -71,7 +72,7 @@ class MainScreen extends React.Component {
     componentWillUnmount() {
         this.authSubscription();
     }
-
+    
     onLogout = () => {
         this.setState({error: null, user: null});
     }
@@ -81,9 +82,9 @@ class MainScreen extends React.Component {
         if (this.state.user) return <LoggedInScreen
                                         onLogout={this.onLogout}
                                         user={this.state.user}/>;
-        return <LoginForm
-            onLogin={this.onLogin}
-            onRegister={this.onRegister}
+        return <LoginForm 
+            onLogin={this.onLogin} 
+            onRegister={this.onRegister} 
             error={this.state.error}/>;
   }
 }
