@@ -1,62 +1,56 @@
 import React from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Text, StatusBar, KeyboardAvoidingView  } from 'react-native';
+import { StyleSheet, TextInput, View, Text, StatusBar, KeyboardAvoidingView  } from 'react-native';
+
+import OpacityButton from './OpacityButton';
 import ErrorWindow from './ErrorWindow';
-import buttonStyles from '../utils/Styles';
 
 class LoginForm extends React.Component {
-
     constructor(props){
         super(props);
         this.state = {
             error: props.error,
-            onLogin: props.onLogin,
-            onRegister: props.onRegister,
-            email: null,
-            password: null
+            email: '',
+            password: '',
         };
-        console.log("constructor: " + this.state.error);
     }
 
     componentWillReceiveProps(newProps) {
-        this.setState({error: newProps.error});
+        this.setState({ error: newProps.error });
     }
-
 
     render(){
         const { inputStyle } = styles;
         return (
-          <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <View style={styles.backgroundStyle}>
-                <Text style={{fontSize: 25, paddingVertical: 15}}>Welcome</Text>
-                <StatusBar barStyle="light-content"/>
-                <TextInput
-                    style={inputStyle}
-                    onChangeText={(email) => this.setState({email: email})}
-                    placeholder={'E-mail'}/>
-                <TextInput
-                    style={inputStyle}
-                    onChangeText={(password) => this.setState({password: password})}
-                    secureTextEntry
-                    placeholder={'Password'}/>
-                <View style={styles.controlPanel}>
-                    <View style={styles.buttonsLayout}>
-                        <TouchableOpacity
-                            style={buttonStyles.buttonStyle}
-                            onPress={() =>
-                                    this.state.onLogin(this.state.email, this.state.password)}>
-                            <Text style={buttonStyles.buttonText}>Login</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={buttonStyles.buttonStyle}
-                            onPress={() =>
-                                    this.state.onRegister(this.state.email, this.state.password)}>
-                            <Text style={buttonStyles.buttonText}>Register</Text>
-                        </TouchableOpacity>
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                <View style={styles.backgroundStyle}>
+                    <View style={styles.viewStyle}>
+                        <OpacityButton text="Play without logging!" onPress={() => this.props.onAnonymous()}/>
+                        <Text style={{fontSize: 25, paddingVertical: 15}}>Sign up/in</Text>
+                        <Text style={{fontSize: 15}}>After logging you would see history of your plays</Text>
+                        <StatusBar barStyle="light-content"/>
+                        <TextInput
+                            style={inputStyle}
+                            keyboardType={'email-address'}
+                            onChangeText={(email) => this.setState({email: email})}
+                            placeholder={'E-mail'}
+                        />
+                        <TextInput
+                            style={inputStyle}
+                            onChangeText={(password) => this.setState({password: password})}
+                            secureTextEntry
+                            placeholder={'Password'}
+                        />
+
+                        <View style={styles.controlPanel}>
+                            <View style={styles.buttonsLayout}>
+                                <OpacityButton text="Sign in" onPress={() => this.props.onLogin(this.state.email, this.state.password)}/>
+                                <OpacityButton text="Sign up" onPress={() => this.props.onRegister(this.state.email, this.state.password)}/>
+                            </View>
+                            {this.shouldPrint(this.state.error) && this.renderError(this.state.error)}
+                        </View>
                     </View>
-                    {this.shouldPrint(this.state.error) && this.renderError(this.state.error)}
                 </View>
-            </View>
-             </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
         );
     }
 
@@ -75,24 +69,31 @@ class LoginForm extends React.Component {
 
 const styles = StyleSheet.create({
     controlPanel: {
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
     buttonsLayout: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     inputStyle: {
-        backgroundColor: '#95a5a6',
+        backgroundColor: '#D8D8D8',
         paddingHorizontal: 10,
         paddingVertical: 10,
-        width: '70%',
-        margin: 15
+        width: '60%',
+        margin: 15,
+    },
+    viewStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        paddingTop: '10%',
+        width: '100%',
     },
     backgroundStyle: {
-        //flex: 1,
+        height: '100%',
         backgroundColor: '#ecf0f1',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        height: '100%'
     }
 });
 

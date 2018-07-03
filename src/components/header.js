@@ -4,16 +4,16 @@ import { Text, View } from 'react-native';
 const Header = (props) =>
     (
         <View style={styles.viewStyle}>
-            <Text style={styles.textStyle}>{props.headerText}</Text>
+            <Text style={styles.textStyle}>{'What If'}</Text>
         </View>
     );
 
 const styles = {
     viewStyle: {
-        backgroundColor: '#F8F8F8',
+        backgroundColor: '#2980b6',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 60,
+        height: 50,
         paddingTop: 15,
         shadowColor: '#000',
         shadowOffset: {height: 2, width: 0},
@@ -22,6 +22,7 @@ const styles = {
         position: 'relative'
     },
     textStyle: {
+        color: "#fff",
         fontSize: 25
     }
 };
