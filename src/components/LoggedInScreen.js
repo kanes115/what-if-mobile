@@ -1,27 +1,28 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, AsyncStorage, StyleSheet } from 'react-native';
-import * as firebase from 'firebase';
+import { auth } from 'firebase';
+
 import { get } from '../utils/HttpRequestHelper';
-import buttonStyles from '../utils/Styles';
+import { buttonStyles } from '../utils/Styles';
 
 class LoggedInScreen extends React.Component {
-
     constructor(props){
         super(props);
         this.state = props;
     }
 
     onLogout = () => {
-        firebase.auth().signOut();
+        auth().signOut();
         this.state.onLogout();
-    }
+    };
 
     onTest = async () => {
         const res = await get('/test');
         console.log("status: " + res.status);
         if(res.status === 200)
             console.log(await res.json());
-    }
+    };
+
 
 
     render(){
@@ -49,7 +50,6 @@ class LoggedInScreen extends React.Component {
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({

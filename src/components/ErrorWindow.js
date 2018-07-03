@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 class ErrorWindow extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = props;
@@ -17,13 +16,13 @@ class ErrorWindow extends React.Component {
         return (
             <View style={styles.viewStyle}>
                 <Text style={{fontSize: 11}}>
-                    {this.transformMessage(this.state.error)}
+                    {ErrorWindow.transformMessage(this.state.error)}
                 </Text>
             </View>
             );
     }
 
-    transformMessage({message, code}){
+    static transformMessage({message, code}){
         if(code === 'auth/network-request-failed')
             return 'Internet connection issues';
         if(code === 'auth/user-disabled')
