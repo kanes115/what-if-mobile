@@ -2,8 +2,9 @@ import React from 'react';
 import {
   Text, View, TouchableOpacity, StyleSheet,
 } from 'react-native';
-import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
+import { auth } from 'firebase';
+
 import buttonStyles from '../styles/Button';
 
 const localColors = {
@@ -23,41 +24,32 @@ const styles = StyleSheet.create({
 });
 
 
-class LoggedInScreen extends React.Component {
-    onLogout = () => {
-      const { auth } = firebase;
-      const { onLogout } = this.props;
-      auth().signOut();
-      onLogout();
-    };
+function LoggedIn({ navigation }) {
+  const { email } = navigation.getParam('user', { email: 'guest' });
 
-
-    render() {
-      const { user: { email } } = this.props;
-      return (
-        <View>
-          <Text style={styles.welcomeText}>
-            {`Hello ${email} !`}
-          </Text>
-          <View style={styles.navbar}>
-            <TouchableOpacity
-              onPress={this.onLogout}
-              style={buttonStyles.buttonStyle}
-            >
-              <Text style={buttonStyles.buttonText}>
+  return (
+    <View>
+      <Text style={styles.welcomeText}>
+        {`Hello ${email} !`}
+      </Text>
+      <View style={styles.navbar}>
+        <TouchableOpacity
+          onPress={() => auth().signOut()}
+          style={buttonStyles.buttonStyle}
+        >
+          <Text style={buttonStyles.buttonText}>
                             Logout
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    }
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
-LoggedInScreen.propTypes = {
-  user: PropTypes.shape({ email: PropTypes.string }).isRequired,
-  onLogout: PropTypes.func.isRequired,
+LoggedIn.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-
-export default LoggedInScreen;
+export default LoggedIn;

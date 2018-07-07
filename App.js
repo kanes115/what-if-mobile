@@ -1,13 +1,32 @@
 import React, { Component}  from 'react';
 import { StyleSheet, View } from 'react-native';
-import MainScreen from './src/screens/Main';
+import { initializeApp } from 'firebase';
+
+import {
+    apiKey, authDomain, databaseURL,
+    storageBucket, messagingSenderId,
+    projectId,
+} from 'react-native-dotenv';
+
+import Navigator from './src/components/Navigator';
 
 export default class App extends Component {
+    constructor(props){
+        super(props);
+
+        initializeApp({
+            apiKey,
+            authDomain,
+            databaseURL,
+            storageBucket,
+            messagingSenderId,
+            projectId,
+        });
+    }
+
     render() {
       return (
-          <View>
-              <MainScreen error={null}/>
-          </View>
+          <Navigator />
       );
     }
 }
