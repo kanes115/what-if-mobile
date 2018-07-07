@@ -1,100 +1,110 @@
 import React from 'react';
-import { StyleSheet, TextInput, View, Text, StatusBar, KeyboardAvoidingView  } from 'react-native';
-
+import {
+  StyleSheet, TextInput, View, Text, StatusBar, KeyboardAvoidingView,
+} from 'react-native';
+import PropTypes from 'prop-types';
 import OpacityButton from './OpacityButton';
 import ErrorWindow from './ErrorWindow';
 
-class LoginForm extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            error: props.error,
-            email: '',
-            password: '',
-        };
-    }
 
-    componentWillReceiveProps(newProps) {
-        this.setState({ error: newProps.error });
-    }
+const localColors = {
+  lightWhite: '#D8D8D8',
+};
 
-    render(){
-        const { inputStyle } = styles;
-        return (
-            <KeyboardAvoidingView behavior="padding" style={styles.container}>
-                <View style={styles.backgroundStyle}>
-                    <View style={styles.viewStyle}>
-                        <OpacityButton text="Play without logging!" onPress={() => this.props.onAnonymous()}/>
-                        <Text style={{fontSize: 25, paddingVertical: 15}}>Sign up/in</Text>
-                        <Text style={{fontSize: 15}}>After logging you would see history of your plays</Text>
-                        <StatusBar barStyle="light-content"/>
-                        <TextInput
-                            style={inputStyle}
-                            keyboardType={'email-address'}
-                            onChangeText={(email) => this.setState({email: email})}
-                            placeholder={'E-mail'}
-                        />
-                        <TextInput
-                            style={inputStyle}
-                            onChangeText={(password) => this.setState({password: password})}
-                            secureTextEntry
-                            placeholder={'Password'}
-                        />
-
-                        <View style={styles.controlPanel}>
-                            <View style={styles.buttonsLayout}>
-                                <OpacityButton text="Sign in" onPress={() => this.props.onLogin(this.state.email, this.state.password)}/>
-                                <OpacityButton text="Sign up" onPress={() => this.props.onRegister(this.state.email, this.state.password)}/>
-                            </View>
-                            {this.shouldPrint(this.state.error) && this.renderError(this.state.error)}
-                        </View>
-                    </View>
-                </View>
-            </KeyboardAvoidingView>
-        );
-    }
-
-    renderError = (error) => <ErrorWindow error={error}/>;
-
-    shouldPrint(error){
-        if(!error)
-            return false;
-        if(error.code === 'auth/invalid-api-key'){
-            console.log("[Error] " + error.message);
-            return false;
-        }
-        return true;
-    }
-}
 
 const styles = StyleSheet.create({
-    controlPanel: {
-        flexDirection: 'column',
-    },
-    buttonsLayout: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    inputStyle: {
-        backgroundColor: '#D8D8D8',
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        width: '60%',
-        margin: 15,
-    },
-    viewStyle: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingTop: '10%',
-        width: '100%',
-    },
-    backgroundStyle: {
-        height: '100%',
-        backgroundColor: '#ecf0f1',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    }
+  controlPanel: {
+    flexDirection: 'column',
+  },
+  buttonsLayout: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputStyle: {
+    backgroundColor: localColors.lightWhite,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    width: '60%',
+    margin: 15,
+  },
+  viewStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingTop: '10%',
+    width: '100%',
+  },
+  backgroundStyle: {
+    height: '100%',
+    backgroundColor: localColors.lightWhite,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  signUpText: {
+    fontSize: 25,
+    paddingVertical: 15,
+  },
+  infoText: {
+    fontSize: 15,
+  },
 });
+
+class LoginForm extends React.Component {
+  state = {
+    email: '',
+    password: '',
+  };
+
+  render() {
+    const { email, password } = this.state;
+    const {
+      error, onAnonymous,
+      onLogin, onRegister,
+    } = this.props;
+    return (
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <View style={styles.backgroundStyle}>
+          <View style={styles.viewStyle}>
+            <OpacityButton text="Play without logging!" onPress={onAnonymous} />
+            <Text style={styles.signUpText}>
+              Sign up/in
+            </Text>
+            <Text style={styles.infoText}>
+              After logging you would see history of your plays
+            </Text>
+            <StatusBar barStyle="light-content" />
+            <TextInput
+              style={styles.inputStyle}
+              keyboardType="email-address"
+              onChangeText={text => this.setState({ email: text })}
+              placeholder="E-mail"
+            />
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={text => this.setState({ password: text })}
+              secureTextEntry
+              placeholder="Password"
+            />
+            <View style={styles.controlPanel}>
+              <View style={styles.buttonsLayout}>
+                <OpacityButton text="Sign in" onPress={() => onLogin(email, password)} />
+                <OpacityButton text="Sign up" onPress={() => onRegister(email, password)} />
+              </View>
+              {!!error && <ErrorWindow error={error} />}
+            </View>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
+}
+
+
+LoginForm.propTypes = {
+  error: PropTypes.string.isRequired,
+  onAnonymous: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
+  onRegister: PropTypes.func.isRequired,
+};
 
 export default LoginForm;

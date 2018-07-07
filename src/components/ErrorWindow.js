@@ -1,45 +1,41 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import PropTypes from 'prop-types';
 
-class ErrorWindow extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = props;
-    }
-
-    componentWillReceiveProps(newProps){
-        this.setState({error: newProps.error});
-    }
-
-    render() {
-        console.log("error code: " + this.state.error.code);
-        return (
-            <View style={styles.viewStyle}>
-                <Text style={{fontSize: 11}}>
-                    {ErrorWindow.transformMessage(this.state.error)}
-                </Text>
-            </View>
-            );
-    }
-
-    static transformMessage({message, code}){
-        if(code === 'auth/network-request-failed')
-            return 'Internet connection issues';
-        if(code === 'auth/user-disabled')
-            return 'You have been banned'
-        if(code === 'auth/user-not-found')
-            return 'User does not exits';
-        return message;
-    }
-}
+const localColors = {
+  warningRed: '#e74c3c',
+};
 
 const styles = StyleSheet.create({
-    viewStyle: {
-        backgroundColor: '#e74c3c',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 15
-    }
+  container: {
+    backgroundColor: localColors.warningRed,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+  },
+  errorText: {
+    fontSize: 11,
+  },
 });
+
+const transformMessage = ({ message, code }) => {
+  if (code === 'auth/network-request-failed') return 'Internet connection issues';
+  if (code === 'auth/user-disabled') return 'You have been banned';
+  if (code === 'auth/user-not-found') return 'User does not exits';
+  return message;
+};
+
+
+const ErrorWindow = ({ error }) => (
+  <View style={styles.container}>
+    <Text style={styles.errorText}>
+      {transformMessage(error)}
+    </Text>
+  </View>
+);
+
+ErrorWindow.propTypes = {
+  error: PropTypes.string.isRequired,
+};
 
 export default ErrorWindow;

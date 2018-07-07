@@ -39,6 +39,7 @@ DerivedData
 /android/versioned-react-native/ReactAndroid
 ReactAndroid-temp.aar
 *.apk
+.idea/
 
 # Tools
 jarjar-rules.txt
@@ -104,3 +105,9 @@ ios/RCTTest.podspec
 ios/Podfile.lock
 ios/Pods
 .expo
+
+
+# envs
+
+.env
+.env.prod
