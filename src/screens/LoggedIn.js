@@ -38,7 +38,7 @@ function LoggedIn({ navigation }) {
           style={buttonStyles.buttonStyle}
         >
           <Text style={buttonStyles.buttonText}>
-                            Logout
+            Logout
           </Text>
         </TouchableOpacity>
       </View>

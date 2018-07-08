@@ -50,16 +50,13 @@ const styles = StyleSheet.create({
 });
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: {
-        email: '',
-        password: '',
-      },
-      error: null,
-    };
-  }
+  state = {
+    user: {
+      email: '',
+      password: '',
+    },
+    error: null,
+  };
 
   componentDidMount() {
     this.authSubscription = auth().onAuthStateChanged((user) => {
@@ -80,82 +77,82 @@ class Login extends Component {
     this.authSubscription();
   }
 
-    onEmailChange = (email) => {
-      const { user: { password } } = this.state;
-      this.setState({ user: { email, password } });
-    };
+  onEmailChange = (email) => {
+    const { user: { password } } = this.state;
+    this.setState({ user: { email, password } });
+  };
 
-    onPasswordChange = (password) => {
-      const { user: { email } } = this.state;
-      this.setState({ user: { email, password } });
-    };
+  onPasswordChange = (password) => {
+    const { user: { email } } = this.state;
+    this.setState({ user: { email, password } });
+  };
 
-    onLogin = async () => {
-      const { user: { email, password } } = this.state;
-      try {
-        await auth().signInWithEmailAndPassword(email, password);
-      } catch (error) {
-        this.setState({ error });
-      }
-    };
+  onLogin = async () => {
+    const { user: { email, password } } = this.state;
+    try {
+      await auth().signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      this.setState({ error });
+    }
+  };
 
-    onRegister = async () => {
-      const { user: { email, password } } = this.state;
+  onRegister = async () => {
+    const { user: { email, password } } = this.state;
 
-      try {
-        await auth().createUserWithEmailAndPassword(email, password);
-      } catch (error) {
-        this.setState({ error });
-      }
-    };
+    try {
+      await auth().createUserWithEmailAndPassword(email, password);
+    } catch (error) {
+      this.setState({ error });
+    }
+  };
 
-    onAnonymous = () => {
-      this.navigate({ email: 'Guest' });
-    };
+  onAnonymous = () => {
+    this.navigate({ email: 'Guest' });
+  };
 
-    navigate = (user) => {
-      const { navigation: { navigate } } = this.props;
-      navigate('LoggedIn', { user });
-    };
+  navigate = (user) => {
+    const { navigation: { navigate } } = this.props;
+    navigate('LoggedIn', { user });
+  };
 
-    render() {
-      const { error } = this.state;
-      return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-          <View style={styles.backgroundStyle}>
-            <View style={styles.viewStyle}>
-              <OpacityButton text="Play without logging!" onPress={this.onAnonymous} />
-              <Text style={styles.signUpText}>
-                            Sign up/in
-              </Text>
-              <Text style={styles.infoText}>
-                            After logging you would see history of your plays
-              </Text>
-              <StatusBar barStyle="light-content" />
-              <TextInput
-                style={styles.inputStyle}
-                keyboardType="email-address"
-                onChangeText={this.onEmailChange}
-                placeholder="E-mail"
-              />
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={this.onPasswordChange}
-                secureTextEntry
-                placeholder="Password"
-              />
-              <View style={styles.controlPanel}>
-                <View style={styles.buttonsLayout}>
-                  <OpacityButton text="Sign in" onPress={this.onLogin} />
-                  <OpacityButton text="Sign up" onPress={this.onRegister} />
-                </View>
-                {!!error && <Error error={error} />}
+  render() {
+    const { error } = this.state;
+    return (
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <View style={styles.backgroundStyle}>
+          <View style={styles.viewStyle}>
+            <OpacityButton text="Play without logging!" onPress={this.onAnonymous} />
+            <Text style={styles.signUpText}>
+              Sign up/in
+            </Text>
+            <Text style={styles.infoText}>
+              After logging you would see history of your plays
+            </Text>
+            <StatusBar barStyle="light-content" />
+            <TextInput
+              style={styles.inputStyle}
+              keyboardType="email-address"
+              onChangeText={this.onEmailChange}
+              placeholder="E-mail"
+            />
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={this.onPasswordChange}
+              secureTextEntry
+              placeholder="Password"
+            />
+            <View style={styles.controlPanel}>
+              <View style={styles.buttonsLayout}>
+                <OpacityButton text="Sign in" onPress={this.onLogin} />
+                <OpacityButton text="Sign up" onPress={this.onRegister} />
               </View>
+              {!!error && <Error error={error} />}
             </View>
           </View>
-        </KeyboardAvoidingView>
-      );
-    }
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
 }
 
 Login.propTypes = {
