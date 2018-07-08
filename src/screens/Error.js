@@ -35,7 +35,10 @@ const ErrorWindow = ({ error }) => (
 );
 
 ErrorWindow.propTypes = {
-  error: PropTypes.string.isRequired,
+  error: PropTypes.shape({
+    message: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ErrorWindow;

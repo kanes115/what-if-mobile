@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import buttonStyles from '../utils/Styles';
+import buttonStyles from '../styles/Button';
 
 const OpacityButton = ({ onPress, text }) => (
   <TouchableOpacity
