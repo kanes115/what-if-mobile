@@ -107,12 +107,13 @@ class Login extends Component {
   };
 
   onAnonymous = () => {
+    console.log('navigating');
     this.navigate({ email: 'Guest' });
   };
 
   navigate = (user) => {
     const { navigation: { navigate } } = this.props;
-    navigate('LoggedIn', { user });
+    navigate('Lobby', { user });
   };
 
   render() {
