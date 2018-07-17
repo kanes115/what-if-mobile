@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 const localColors = {
   warningRed: '#e74c3c',
+  white: '#fff',
 };
 
 const styles = StyleSheet.create({
@@ -11,10 +12,14 @@ const styles = StyleSheet.create({
     backgroundColor: localColors.warningRed,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 15,
+    padding: 5,
+    marginBottom: 5,
+    width: '80%',
+    height: 50,
   },
   errorText: {
     fontSize: 11,
+    color: localColors.white,
   },
 });
 

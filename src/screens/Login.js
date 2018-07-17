@@ -1,51 +1,79 @@
 import React, { Component } from 'react';
 import { auth } from 'firebase';
 import {
-  StyleSheet, TextInput, View, Text, StatusBar, KeyboardAvoidingView,
+  StyleSheet, TextInput, View, Text, KeyboardAvoidingView, ImageBackground, Image, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { LinearGradient } from 'expo';
 
-import OpacityButton from '../components/OpacityButton';
 import Error from './Error';
+import buttonStyles from '../styles/Button';
 
 const localColors = {
   lightWhite: '#D8D8D8',
+  white: '#fff',
+  black: '#000',
+  red: '#E03E18',
+  redGradient1: '#E93D13',
+  redGradient2: '#DF3C16',
 };
 
 const styles = StyleSheet.create({
-  controlPanel: {
-    flexDirection: 'column',
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
   },
-  buttonsLayout: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputStyle: {
-    backgroundColor: localColors.lightWhite,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    width: '60%',
-    margin: 15,
-  },
-  viewStyle: {
+  view: {
     display: 'flex',
     alignItems: 'center',
+  },
+  keyboardAvoidingView: {
     paddingTop: '10%',
     width: '100%',
   },
-  backgroundStyle: {
+  logoView: {
+    height: '40%',
+    width: '100%',
+    margin: '10% 0%',
+  },
+  logo: {
+    width: '50%',
     height: '100%',
-    backgroundColor: localColors.lightWhite,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
   },
-  signUpText: {
-    fontSize: 25,
-    paddingVertical: 15,
+  inputView: {
+    width: '80%',
+    borderBottomColor: localColors.black,
+    borderBottomWidth: 2,
+    marginBottom: 30,
   },
-  infoText: {
-    fontSize: 15,
+  input: {
+    width: '100%',
+    fontSize: 20,
+    color: localColors.white,
+  },
+  loginView: {
+    height: 40,
+    width: '80%',
+  },
+  loginButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: '100%',
+    margin: 0,
+  },
+  signUpInfoView: {
+    flexDirection: 'row',
+    marginTop: 30,
+  },
+  signUpInfoText: {
+    fontSize: 20,
+  },
+  signUpInfoText1: {
+    color: localColors.white,
+    marginRight: 15,
+  },
+  signUpInfoText2: {
+    color: localColors.red,
   },
 });
 
@@ -55,7 +83,7 @@ class Login extends Component {
       email: '',
       password: '',
     },
-    error: null,
+    error: '',
   };
 
   componentDidMount() {
@@ -68,6 +96,7 @@ class Login extends Component {
             email: '',
             password: '',
           },
+          error: '',
         });
       }
     });
@@ -79,35 +108,22 @@ class Login extends Component {
 
   onEmailChange = (email) => {
     const { user: { password } } = this.state;
-    this.setState({ user: { email, password } });
+    this.setState({ user: { email, password }, error: '' });
   };
 
   onPasswordChange = (password) => {
     const { user: { email } } = this.state;
-    this.setState({ user: { email, password } });
+    this.setState({ user: { email, password }, error: '' });
   };
 
   onLogin = async () => {
     const { user: { email, password } } = this.state;
+
     try {
       await auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
       this.setState({ error });
     }
-  };
-
-  onRegister = async () => {
-    const { user: { email, password } } = this.state;
-
-    try {
-      await auth().createUserWithEmailAndPassword(email, password);
-    } catch (error) {
-      this.setState({ error });
-    }
-  };
-
-  onAnonymous = () => {
-    this.navigate({ email: 'Guest' });
   };
 
   navigate = (user) => {
@@ -118,39 +134,65 @@ class Login extends Component {
   render() {
     const { error } = this.state;
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.backgroundStyle}>
-          <View style={styles.viewStyle}>
-            <OpacityButton text="Play without logging!" onPress={this.onAnonymous} />
-            <Text style={styles.signUpText}>
-              Sign up/in
-            </Text>
-            <Text style={styles.infoText}>
-              After logging you would see history of your plays
-            </Text>
-            <StatusBar barStyle="light-content" />
+      <ImageBackground
+        style={styles.backgroundImage}
+        source={require('./../../assets/background.png')}
+      >
+        <KeyboardAvoidingView behavior="padding" style={[styles.view, styles.keyboardAvoidingView]}>
+          <View style={[styles.view, styles.logoView]}>
+            <Image
+              resizeMode="contain"
+              style={styles.logo}
+              source={require('./../../assets/logo.png')}
+            />
+          </View>
+          <View style={[styles.view, styles.inputView]}>
             <TextInput
-              style={styles.inputStyle}
+              style={styles.input}
+              placeholderTextColor="white"
               keyboardType="email-address"
               onChangeText={this.onEmailChange}
-              placeholder="E-mail"
+              placeholder="Email"
             />
+          </View>
+          <View style={[styles.view, styles.inputView]}>
             <TextInput
-              style={styles.inputStyle}
+              style={styles.input}
+              placeholderTextColor="white"
               onChangeText={this.onPasswordChange}
               secureTextEntry
               placeholder="Password"
             />
-            <View style={styles.controlPanel}>
-              <View style={styles.buttonsLayout}>
-                <OpacityButton text="Sign in" onPress={this.onLogin} />
-                <OpacityButton text="Sign up" onPress={this.onRegister} />
-              </View>
-              {!!error && <Error error={error} />}
-            </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
+          {!!error && <Error error={error} />}
+          <View style={[styles.loginView]}>
+            <LinearGradient colors={[localColors.redGradient1, localColors.redGradient2]}>
+              <TouchableOpacity
+                style={[styles.loginButton]}
+                onPress={this.onLogin}
+              >
+                <Text style={buttonStyles.buttonText}>
+                  LOGIN
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+          <View style={[styles.view, styles.signUpInfoView]}>
+            <Text style={[styles.signUpInfoText, styles.signUpInfoText1]}>
+              No   account   yet?
+            </Text>
+            <Text
+              style={[styles.signUpInfoText, styles.signUpInfoText2]}
+              onPress={() => {
+                const { navigation: { navigate } } = this.props;
+                navigate('SignUp');
+              }}
+            >
+              Sign   up!
+            </Text>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
